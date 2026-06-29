@@ -1,6 +1,6 @@
 {
   "name": "example/catalog-microservice",
-  "description": "Servico de catalogo: produtos, categorias e busca.",
+  "description": "Catalog service: products, categories and search.",
   "type": "project",
   "license": "MIT",
   "keywords": ["reference", "example", "platform"],
